@@ -2,4 +2,7 @@ face_landmarker.task
 *.pt
 dataset
 raw_dataset
+*.gz
+
+
 
