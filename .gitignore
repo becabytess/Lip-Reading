@@ -3,6 +3,6 @@ face_landmarker.task
 dataset
 raw_dataset
 *.gz
-
-
+*.log
+__pycache__
 
