@@ -8,6 +8,7 @@ import cv2
 import numpy as np
 import torch.nn.functional as F
 from fastapi import FastAPI , HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 import huggingface_hub as hf
 
@@ -131,6 +132,14 @@ def load_model():
 @App.get("/")
 def health_check():
     return {"message": "Health check successful. The API is running."}
+
+
+@App.get("/video/{video_name}")
+def get_video(video_name: str):
+    video_path = os.path.join('sample_data', 'videos', video_name)
+    if not os.path.exists(video_path):
+        raise HTTPException(status_code=404, detail="Video not found.")
+    return FileResponse(video_path, media_type='video/mp4', filename=video_name)
 
 @App.get("/samples", response_model=SampleVideosResponseModel)
 def get_sample_videos():
