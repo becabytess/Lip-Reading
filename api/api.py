@@ -128,6 +128,7 @@ def load_model():
     chkpt = torch.load(model_path, map_location=device)
     weights = chkpt['model_state_dict']
     model.load_state_dict(weights)
+    model.eval()  
 
 @App.get("/")
 def health_check():
