@@ -104,6 +104,9 @@ class ResponseModel(BaseModel):
     prediction: str 
     label: str
 
+class SampleVideosResponseModel(BaseModel):
+    sample_videos: list[str] = Field(..., description="List of sample video filenames available for testing")
+
 
 model = None
 # modal volume get lip-reading-data lip_latest.pt ./lip_latest.pt to get model weights from modal
@@ -119,6 +122,15 @@ def load_model():
 @App.get("/")
 def health_check():
     return {"message": "Health check successful. The API is running."}
+
+@App.get("/samples", response_model=SampleVideosResponseModel)
+def get_sample_videos():
+    sample_dir = os.path.join('sample_data', 'videos')
+    if not os.path.exists(sample_dir):
+         return {"error": "Sample videos directory not found."}
+    
+    sample_videos = [f for f in os.listdir(sample_dir) if f.endswith('.mp4')]
+    return SampleVideosResponseModel(sample_videos=sample_videos)
 
 
 @App.get("/predict",response_model=ResponseModel)
