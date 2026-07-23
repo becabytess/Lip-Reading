@@ -1,6 +1,6 @@
 # Lip-Reading 
 
-An end-to-end deep learning project that translates video sequences of a person's mouth into spoken text. This repository contains the complete pipeline—from data preprocessing and lip region extraction to model training and a deployable inference API.
+An end-to-end deep learning project that translates video sequences of a person's mouth into spoken text. This repository contains the complete pipeline,from data preprocessing and lip region extraction to model training and a deployable inference API.
 
 ## Core Idea
 The goal of this project is to perform sentence-level lip reading. Given a video of a person speaking, the system uses MediaPipe to track and extract the Region of Interest (ROI) around the lips. These grayscale video frames are then passed into a spatio-temporal neural network that predicts the sequence of spoken characters without needing frame-by-frame alignment.
