@@ -9,6 +9,7 @@ import numpy as np
 import torch.nn.functional as F
 from fastapi import FastAPI , HTTPException
 from pydantic import BaseModel, Field
+import huggingface_hub as hf
 
 
 
@@ -109,13 +110,21 @@ class SampleVideosResponseModel(BaseModel):
 
 
 model = None
-# modal volume get lip-reading-data lip_latest.pt ./lip_latest.pt to get model weights from modal
+
 App = FastAPI(title="Lip Reading API", description="API for lip reading from video", version="1.0.0")
+
 @App.on_event("startup")
 def load_model():
     global model
+    #get the model from huggingface hub
+    model_path = hf.hf_hub_download(
+        repo_id="bekalemu/Lip-Reading",
+        filename="lip_latest.pt",
+        repo_type="model"
+    )
+    
     model = LipReadingModel().to(device)
-    chkpt = torch.load("lip_latest.pt", map_location=device)
+    chkpt = torch.load(model_path, map_location=device)
     weights = chkpt['model_state_dict']
     model.load_state_dict(weights)
 

@@ -4,5 +4,8 @@ raw_dataset
 *.gz
 *.log
 __pycache__
+hf.py
+*.pt
+.env
 
 
